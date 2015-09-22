@@ -8,6 +8,7 @@ public interface StringSet {
      */
     boolean add(String element);
 
+
     /**
      * Expected complexity: O(|element|)
      */
