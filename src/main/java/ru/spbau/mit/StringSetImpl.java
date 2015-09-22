@@ -22,18 +22,18 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         element += "#";
 
         BorNode current = root;
+        root.count++;
         for (char ch : element.toCharArray()) {
-            current.count++;
             if (current.hasSon(ch)) {
                 current = current.getSon(ch);
             } else {
                 current.addSon(ch);
                 current = current.getSon(ch);
             }
+            current.count++;
         }
 
         current.stringEnd = true;
-        current.count++;
 
         size++;
         return true;
@@ -63,16 +63,11 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         BorNode current = root;
         root.count--;
         for (char ch : element.toCharArray()) {
-            BorNode next = current.getSon(ch);
-            if (next.count == 1) {
-                current.deleteSon(ch);
-                break;
-            } else {
-                current = next;
-            }
+            current = current.getSon(ch);
             current.count--;
         }
 
+        current.stringEnd = false;
         size--;
         return true;
     }
@@ -165,7 +160,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
             }
         }
 
-        if (v.size() > 0) {
+        if (!u.equals(root) && u.character != '#') {
             v.remove(v.size() - 1);
         }
     }
