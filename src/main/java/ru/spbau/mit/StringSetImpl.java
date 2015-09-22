@@ -13,9 +13,11 @@ public class StringSetImpl implements StringSet, StreamSerializable {
     private int size = 0;
     private final BorNode root = new BorNode('.');
     public static final String ALPHABET =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#";
 
     public boolean add(String element) {
+        element += "#";
+
         if (contains(element)) {
             return false; // we have set, not multiset, as I understood
         }
@@ -31,13 +33,16 @@ public class StringSetImpl implements StringSet, StreamSerializable {
             }
         }
 
-        size++;
         current.stringEnd = true;
+        current.count++;
 
+        size++;
         return true;
     }
 
     public boolean contains(String element) {
+        element += "#";
+
         BorNode current = root;
         for (char ch : element.toCharArray()) {
             if (current.hasSon(ch)) {
@@ -51,13 +56,15 @@ public class StringSetImpl implements StringSet, StreamSerializable {
     }
 
     public boolean remove(String element) {
+        element += "#";
+
         if (!contains(element)) {
             return false;
         }
 
         BorNode current = root;
+        root.count--;
         for (char ch : element.toCharArray()) {
-            current.count--;
             BorNode next = current.getSon(ch);
             if (next.count == 1) {
                 current.deleteSon(ch);
@@ -65,6 +72,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
             } else {
                 current = next;
             }
+            current.count--;
         }
 
         size--;
@@ -76,13 +84,13 @@ public class StringSetImpl implements StringSet, StreamSerializable {
     }
 
     public int howManyStartsWithPrefix(String prefix) {
-        if (!contains(prefix)) {
-            return 0;
-        }
-
         BorNode current = root;
         for (char ch : prefix.toCharArray()) {
-            current = current.getSon(ch);
+            if (current.hasSon(ch)) {
+                current = current.getSon(ch);
+            } else {
+                return 0;
+            }
         }
 
         return current.count;
@@ -97,8 +105,8 @@ public class StringSetImpl implements StringSet, StreamSerializable {
                 new BorNode[StringSetImpl.ALPHABET.length()];
 
         public BorNode(char character) {
+            this.count = 0;
             this.character = character;
-            this.count = 1;
 
             for (int i = 0; i < children.length; i++) {
                 children[i] = null;
@@ -137,7 +145,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
 
     private void printStrings(BorNode u, OutputStream out, Vector<Character> v)
             throws SerializationException {
-        if (!u.equals(root)) {
+        if (!u.equals(root) && u.character != '#') {
             v.add(u.character);
         }
 
