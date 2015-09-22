@@ -1,7 +1,7 @@
 package ru.spbau.mit;
 
 import java.io.*;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * Created by equi on 22.09.15.
@@ -72,7 +72,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
             }
             current.count--;
         }
-        
+
         size--;
         return true;
     }
@@ -94,7 +94,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         return current.count;
     }
 
-    private class BorNode {
+    private static class BorNode {
         public int count;
         public char character;
         public boolean stringEnd;
@@ -142,15 +142,16 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         size = 0;
     }
 
-    private void printStrings(BorNode u, OutputStream out, Vector<Character> v)
+    private void printStrings(BorNode node, OutputStream out,
+                              ArrayList<Character> list)
             throws SerializationException {
-        if (!u.equals(root) && u.character != '#') {
-            v.add(u.character);
+        if (!node.equals(root) && node.character != '#') {
+            list.add(node.character);
         }
 
-        if (u.stringEnd) {
+        if (node.stringEnd) {
             try {
-                for (Character ch : v) {
+                for (Character ch : list) {
                     out.write(ch.toString().getBytes("UTF-8"));
                 }
                 out.write("\n".getBytes("UTF-8"));
@@ -160,20 +161,20 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         }
 
         for (char ch : ALPHABET.toCharArray()) {
-            if (u.hasSon(ch)) {
-                printStrings(u.getSon(ch), out, v);
+            if (node.hasSon(ch)) {
+                printStrings(node.getSon(ch), out, list);
             }
         }
 
-        if (!u.equals(root) && u.character != '#') {
-            v.remove(v.size() - 1);
+        if (!node.equals(root) && node.character != '#') {
+            list.remove(list.size() - 1);
         }
     }
 
     public void serialize(OutputStream out)
             throws SerializationException {
-        Vector<Character> v = new Vector<>();
-        printStrings(root, out, v);
+        ArrayList<Character> list = new ArrayList<>();
+        printStrings(root, out, list);
     }
 
     public void deserialize(InputStream in)
