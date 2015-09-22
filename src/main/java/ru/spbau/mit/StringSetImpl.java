@@ -16,11 +16,10 @@ public class StringSetImpl implements StringSet, StreamSerializable {
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#";
 
     public boolean add(String element) {
-        element += "#";
-
         if (contains(element)) {
             return false; // we have set, not multiset, as I understood
         }
+        element += "#";
 
         BorNode current = root;
         for (char ch : element.toCharArray()) {
@@ -56,11 +55,10 @@ public class StringSetImpl implements StringSet, StreamSerializable {
     }
 
     public boolean remove(String element) {
-        element += "#";
-
         if (!contains(element)) {
             return false;
         }
+        element += "#";
 
         BorNode current = root;
         root.count--;
@@ -99,7 +97,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
     private class BorNode {
         public int count;
         public char character;
-        public boolean stringEnd = false;
+        public boolean stringEnd;
 
         private BorNode[] children =
                 new BorNode[StringSetImpl.ALPHABET.length()];
@@ -107,6 +105,7 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         public BorNode(char character) {
             this.count = 0;
             this.character = character;
+            this.stringEnd = false;
 
             for (int i = 0; i < children.length; i++) {
                 children[i] = null;
