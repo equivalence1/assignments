@@ -63,11 +63,16 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         BorNode current = root;
         root.count--;
         for (char ch : element.toCharArray()) {
-            current = current.getSon(ch);
+            BorNode next = current.getSon(ch);
+            if (next.count == 1) {
+                current.deleteSon(ch);
+                break;
+            } else {
+                current = next;
+            }
             current.count--;
         }
-
-        current.stringEnd = false;
+        
         size--;
         return true;
     }
