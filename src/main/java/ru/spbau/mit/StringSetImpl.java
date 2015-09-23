@@ -39,19 +39,26 @@ public class StringSetImpl implements StringSet, StreamSerializable {
         return true;
     }
 
-    public boolean contains(String element) {
-        element += "#";
-
+    private BorNode getVertex(String element) {
         BorNode current = root;
         for (char ch : element.toCharArray()) {
             if (current.hasSon(ch)) {
                 current = current.getSon(ch);
             } else {
-                return false;
+                return null;
             }
         }
+        return current;
+    }
 
-        return current.stringEnd;
+    public boolean contains(String element) {
+        BorNode node = getVertex(element + "#");
+
+        if (node == null) {
+            return false;
+        } else {
+            return node.stringEnd;
+        }
     }
 
     public boolean remove(String element) {
@@ -82,16 +89,13 @@ public class StringSetImpl implements StringSet, StreamSerializable {
     }
 
     public int howManyStartsWithPrefix(String prefix) {
-        BorNode current = root;
-        for (char ch : prefix.toCharArray()) {
-            if (current.hasSon(ch)) {
-                current = current.getSon(ch);
-            } else {
-                return 0;
-            }
-        }
+        BorNode node = getVertex(prefix);
 
-        return current.count;
+        if (node == null) {
+            return 0;
+        } else {
+            return node.count;
+        }
     }
 
     private static class BorNode {
