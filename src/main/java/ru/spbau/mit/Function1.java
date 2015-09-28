@@ -5,7 +5,7 @@ package ru.spbau.mit;
  *
  * @author Kravchenko Dima
  */
-abstract class Function1<T, R> {
+public abstract class Function1<T, R> {
     public abstract R apply(T arg);
 
     public <R2> Function1<T, R2> compose(final Function1<? super R, R2> outer) {

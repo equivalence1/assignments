@@ -22,6 +22,35 @@ public class Function1Test {
     public void testFunction1Apply() {
         assertTrue(10 == addTen.apply(0));
         assertTrue(20 == addTen.apply(10));
+
+        abstract class Animal {
+            public abstract String say();
+        }
+
+        class Dog extends Animal {
+            public String say() {
+                return "bark";
+            };
+        }
+
+        class Cat extends Animal {
+            public String say() {
+                return "mew";
+            }
+        }
+
+        Function1<Animal, String> f = new
+                Function1<Animal, String>() {
+                    @Override
+                    public String apply(Animal arg) {
+                        return arg.say();
+                    }
+                };
+
+        Dog dog = new Dog();
+        Cat cat = new Cat();
+        assertTrue("bark".equals(f.apply(dog)));
+        assertTrue("mew".equals(f.apply(cat)));
     }
 
     @Test

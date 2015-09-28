@@ -5,7 +5,7 @@ package ru.spbau.mit;
  *
  * @author Kravchenko Dima
  */
-abstract public class Predicate<T> {
+public abstract class Predicate<T> {
     public static boolean ALWAYS_TRUE = true;
     public static boolean ALWAYS_FALSE = false;
 
