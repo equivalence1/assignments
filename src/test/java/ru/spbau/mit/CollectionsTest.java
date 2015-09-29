@@ -26,7 +26,7 @@ public class CollectionsTest {
     private static Predicate<Integer> isEven =
             new Predicate<Integer>() {
                 @Override
-                public boolean apply(Integer arg) {
+                public Boolean apply(Integer arg) {
                     return arg % 2 == 0;
                 }
             };

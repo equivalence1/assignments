@@ -2,7 +2,6 @@ package ru.spbau.mit;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * Created by equi on 26.09.15.

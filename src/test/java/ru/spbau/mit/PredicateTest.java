@@ -12,7 +12,7 @@ public class PredicateTest {
     private static Predicate<Integer> isPositive =
             new Predicate<Integer>() {
                 @Override
-                public boolean apply(Integer x) {
+                public Boolean apply(Integer x) {
                     return x > 0;
                 }
             };
@@ -20,7 +20,7 @@ public class PredicateTest {
     private static Predicate<Integer> isEven =
             new Predicate<Integer>() {
                 @Override
-                public boolean apply(Integer x) {
+                public Boolean apply(Integer x) {
                     return x % 2 == 0;
                 }
             };
@@ -31,6 +31,8 @@ public class PredicateTest {
         assertFalse(isEven.apply(1));
         assertFalse(isPositive.apply(10) && Predicate.ALWAYS_FALSE.apply(1));
         assertTrue(isEven.apply(1) || Predicate.ALWAYS_TRUE.apply(1));
+        assertTrue(isEven.compose(Predicate.ALWAYS_TRUE).apply(1));
+        assertFalse(isEven.compose(Predicate.ALWAYS_FALSE).apply(1));
     }
 
     @Test
