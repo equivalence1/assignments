@@ -29,8 +29,8 @@ public class PredicateTest {
     public void testPredicateApply() {
         assertTrue(isPositive.apply(10));
         assertFalse(isEven.apply(1));
-        assertFalse(isPositive.apply(10) && Predicate.ALWAYS_FALSE);
-        assertTrue(isEven.apply(1) || Predicate.ALWAYS_TRUE);
+        assertFalse(isPositive.apply(10) && Predicate.ALWAYS_FALSE.apply(1));
+        assertTrue(isEven.apply(1) || Predicate.ALWAYS_TRUE.apply(1));
     }
 
     @Test
