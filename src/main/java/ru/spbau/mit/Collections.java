@@ -52,7 +52,7 @@ public class Collections {
         take(false, p, collection, result);
     }
 
-    public static <T1, T2> T1 foldl(Function2<T1, T2, T1> f,
+    public static <T1, T2> T1 foldl(Function2<? super T1, ? super T2, ? extends T1> f,
                            T1 value,
                            final Iterable<T2> collection) {
         for (T2 element : collection) {
@@ -61,7 +61,7 @@ public class Collections {
         return value;
     }
 
-    public static <T1, T2> T2 foldr(Function2<T1, T2, T2> f,
+    public static <T1, T2> T2 foldr(Function2<? super T1, ? super T2, ? extends T2> f,
                                     T2 value,
                                     final Iterable<T1> collection) {
         ArrayList<T1> arr = new ArrayList<>();
