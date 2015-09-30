@@ -13,7 +13,7 @@ import java.util.Arrays;
  */
 public class CollectionsTest {
     private static final ArrayList<Integer> ARR =
-            new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+            new ArrayList(Arrays.asList(1, 2, 3, 4, 5));
 
     private static Function1<Integer, Integer> multByTwo =
             new Function1<Integer, Integer>() {
@@ -31,12 +31,10 @@ public class CollectionsTest {
                 }
             };
 
-    private static final Collections COLLECT_INSTANCE = new Collections();
-
     @Test
     public void testCollectionsMap() {
         ArrayList<Integer> res = new ArrayList<>();
-        COLLECT_INSTANCE.map(multByTwo, ARR, res);
+        Collections.map(multByTwo, ARR, res);
         for (int i = 0; i < res.size(); i++) {
             assertTrue(res.get(i) == 2 * ARR.get(i));
         }
@@ -45,7 +43,7 @@ public class CollectionsTest {
     @Test
     public void testCollectionsFilter() {
         ArrayList<Integer> res = new ArrayList<>();
-        COLLECT_INSTANCE.filter(isEven, ARR, res);
+        Collections.filter(isEven, ARR, res);
         assertTrue(res.size() == 2);
         assertTrue(res.get(0) == 2);
         assertTrue(res.get(1) == 4);
@@ -54,7 +52,7 @@ public class CollectionsTest {
     @Test
     public void testCollectionsTakeWhile() {
         ArrayList<Integer> res = new ArrayList<>();
-        COLLECT_INSTANCE.takeWhile(isEven.not(), ARR, res);
+        Collections.takeWhile(isEven.not(), ARR, res);
         assertTrue(res.size() == 1);
         assertTrue(res.get(0) == 1);
     }
@@ -62,7 +60,7 @@ public class CollectionsTest {
     @Test
     public void testCollectionsTakeUnless() {
         ArrayList<Integer> res = new ArrayList<>();
-        COLLECT_INSTANCE.takeUnless(isEven, ARR, res);
+        Collections.takeUnless(isEven, ARR, res);
         assertTrue(res.size() == 1);
         assertTrue(res.get(0) == 1);
     }
@@ -76,7 +74,7 @@ public class CollectionsTest {
                         return arg1 + arg2;
                     }
                 };
-        String res = COLLECT_INSTANCE.foldl(f, "", ARR);
+        String res = Collections.foldl(f, "", ARR);
         assertTrue(res.equals("12345"));
     }
 
@@ -89,7 +87,7 @@ public class CollectionsTest {
                         return arg1 + arg2;
                     }
                 };
-        String res = COLLECT_INSTANCE.foldr(f, "", ARR);
+        String res = Collections.foldr(f, "", ARR);
         assertTrue(res.equals("12345"));
     }
 }
