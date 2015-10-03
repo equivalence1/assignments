@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by equi on 29.09.15.
@@ -12,8 +13,7 @@ import java.util.Arrays;
  * @author Kravchenko Dima
  */
 public class CollectionsTest {
-    private static final ArrayList<Integer> ARR =
-            new ArrayList(Arrays.asList(1, 2, 3, 4, 5));
+    private static final List<Integer> ARR = Arrays.asList(1, 2, 3, 4, 5);
 
     private static Function1<Integer, Integer> multByTwo =
             new Function1<Integer, Integer>() {
@@ -31,12 +31,24 @@ public class CollectionsTest {
                 }
             };
 
+    private static Function2<Integer, Integer, Integer> pow =
+            new Function2<Integer, Integer, Integer>() {
+                @Override
+                public Integer apply(Integer arg1, Integer arg2) {
+                    int x = 1;
+                    for (int i = 0; i < arg2; i++) {
+                        x *= arg1;
+                    }
+                    return x;
+                }
+            };
+
     @Test
     public void testCollectionsMap() {
         ArrayList<Integer> res = new ArrayList<>();
         Collections.map(multByTwo, ARR, res);
         for (int i = 0; i < res.size(); i++) {
-            assertTrue(res.get(i) == 2 * ARR.get(i));
+            assertEquals((long) res.get(i), 2 * ARR.get(i));
         }
     }
 
@@ -67,27 +79,15 @@ public class CollectionsTest {
 
     @Test
     public void testCollectionsFoldl() {
-        Function2<String, Integer, String> f =
-                new Function2<String, Integer, String>() {
-                    @Override
-                    public String apply(String arg1, Integer arg2) {
-                        return arg1 + arg2;
-                    }
-                };
-        String res = Collections.foldl(f, "", ARR);
-        assertTrue(res.equals("12345"));
+        final List<Integer> ARR = Arrays.asList(1, 2, 3);
+        int res = Collections.foldl(pow, 2, ARR);
+        assertTrue(res == 64); // ((2^1)^2)^3 = 2^(1 * 2 * 3) = 2^6
     }
 
     @Test
     public void testCollectionsFoldr() {
-        Function2<Integer, String, String> f =
-                new Function2<Integer, String, String>() {
-                    @Override
-                    public String apply(Integer arg1, String arg2) {
-                        return arg1 + arg2;
-                    }
-                };
-        String res = Collections.foldr(f, "", ARR);
-        assertTrue(res.equals("12345"));
+        final List<Integer> ARR = Arrays.asList(1, 2, 3);
+        int res = Collections.foldr(pow , 2, ARR);
+        assertTrue(res == 1); // 1^(2^(3^2)) = 1^512 = 1
     }
 }

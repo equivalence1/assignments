@@ -50,6 +50,7 @@ public class PredicateTest {
         assertTrue(isEven.or(isPositive).apply(1));
         assertFalse(isEven.or(isPositive).apply(-1));
         assertFalse(isEven.or(isEven).apply(1));
+        assertTrue(isPositive.or(isEven).apply(1));
     }
 
     @Test
