@@ -25,6 +25,16 @@ public class PredicateTest {
                 }
             };
 
+    private static Predicate<Integer> forLazy =
+            new Predicate<Integer>() {
+                @Override
+                public Boolean apply(Integer arg) {
+                    int k = 0;
+                    int j = 1 / k;
+                    return null;
+                }
+            };
+
     @Test
     public void testPredicateApply() {
         assertTrue(isPositive.apply(10));
@@ -42,6 +52,7 @@ public class PredicateTest {
         assertFalse(isPositive.and(isEven).apply(-2));
         assertFalse(isEven.and(isPositive).apply(-2));
         assertFalse(isEven.and(isEven).apply(3));
+        assertFalse(isEven.and(forLazy).apply(3));
     }
 
     @Test
@@ -51,6 +62,7 @@ public class PredicateTest {
         assertFalse(isEven.or(isPositive).apply(-1));
         assertFalse(isEven.or(isEven).apply(1));
         assertTrue(isPositive.or(isEven).apply(1));
+        assertTrue(isPositive.or(forLazy).apply(1));
     }
 
     @Test
