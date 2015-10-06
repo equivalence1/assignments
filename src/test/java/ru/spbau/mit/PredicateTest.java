@@ -29,8 +29,7 @@ public class PredicateTest {
             new Predicate<Integer>() {
                 @Override
                 public Boolean apply(Integer arg) {
-                    int k = 0;
-                    int j = 1 / k;
+                    fail();
                     return null;
                 }
             };

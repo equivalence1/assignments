@@ -9,7 +9,7 @@ import java.util.Collection;
  * @author Kravchenko Dima
  */
 public class Collections {
-    public static <T, R> void map(Function1<? super T, R> f,
+    public static <T, R> void map(Function1<? super T, ? extends R> f,
                                   final Iterable<T> collection,
                                   Collection<? super R> result) {
         for (T element : collection) {

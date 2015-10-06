@@ -28,27 +28,27 @@ public class Function2Test {
 
     @Test
     public void testFunction2Apply() {
-        assertTrue(10 == sum.apply(2, 8));
+        assertEquals(10, (long)sum.apply(2, 8));
     }
 
     @Test
     public void testFunction2Compose() {
         Function2<Integer, Integer, Integer> comp = sum.compose(addTen);
-        assertTrue(20 == comp.apply(4, 6));
+        assertEquals(20, (long)comp.apply(4, 6));
     }
 
     @Test
     public void testFunction2Bind1() {
-        assertTrue(21 == sum.bind1(10).apply(11));
+        assertEquals(21, (long)sum.bind1(10).apply(11));
     }
 
     @Test
     public void testFunction2Bind2() {
-        assertTrue(21 == sum.bind2(10).apply(11));
+        assertEquals(21, (long)sum.bind2(10).apply(11));
     }
 
     @Test
     public void testFunction2Curry() {
-        assertTrue(21 == sum.curry().apply(10).apply(11));
+        assertEquals(21, (long)sum.curry().apply(10).apply(11));
     }
 }

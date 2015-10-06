@@ -20,8 +20,8 @@ public class Function1Test {
 
     @Test
     public void testFunction1Apply() {
-        assertTrue(10 == addTen.apply(0));
-        assertTrue(20 == addTen.apply(10));
+        assertEquals(10, (long)addTen.apply(0));
+        assertEquals(20, (long)addTen.apply(10));
 
         abstract class Animal {
             public abstract String say();
@@ -49,8 +49,8 @@ public class Function1Test {
 
         Dog dog = new Dog();
         Cat cat = new Cat();
-        assertTrue("bark".equals(f.apply(dog)));
-        assertTrue("mew".equals(f.apply(cat)));
+        assertEquals("bark", f.apply(dog));
+        assertEquals("mew", f.apply(cat));
     }
 
     @Test
@@ -62,8 +62,8 @@ public class Function1Test {
                         return num + 20;
                     }
                 };
-        assertTrue(50 == addTen.compose(addTwenty).apply(20));
-        assertTrue(50 == addTwenty.compose(addTen).apply(20));
+        assertEquals(50, (long)addTen.compose(addTwenty).apply(20));
+        assertEquals(50, (long)addTwenty.compose(addTen).apply(20));
     }
 
 }

@@ -56,38 +56,38 @@ public class CollectionsTest {
     public void testCollectionsFilter() {
         ArrayList<Integer> res = new ArrayList<>();
         Collections.filter(isEven, ARR, res);
-        assertTrue(res.size() == 2);
-        assertTrue(res.get(0) == 2);
-        assertTrue(res.get(1) == 4);
+        assertEquals((long)res.size(), 2);
+        assertEquals((long)res.get(0), 2);
+        assertEquals((long)res.get(1), 4);
     }
 
     @Test
     public void testCollectionsTakeWhile() {
         ArrayList<Integer> res = new ArrayList<>();
         Collections.takeWhile(isEven.not(), ARR, res);
-        assertTrue(res.size() == 1);
-        assertTrue(res.get(0) == 1);
+        assertEquals((long)res.size(), 1);
+        assertEquals((long)res.get(0), 1);
     }
 
     @Test
     public void testCollectionsTakeUnless() {
         ArrayList<Integer> res = new ArrayList<>();
         Collections.takeUnless(isEven, ARR, res);
-        assertTrue(res.size() == 1);
-        assertTrue(res.get(0) == 1);
+        assertEquals((long)res.size(), 1);
+        assertEquals((long)res.get(0), 1);
     }
 
     @Test
     public void testCollectionsFoldl() {
         final List<Integer> ARR = Arrays.asList(1, 2, 3);
         int res = Collections.foldl(pow, 2, ARR);
-        assertTrue(res == 64); // ((2^1)^2)^3 = 2^(1 * 2 * 3) = 2^6
+        assertEquals(res, 64); // ((2^1)^2)^3 = 2^(1 * 2 * 3) = 2^6
     }
 
     @Test
     public void testCollectionsFoldr() {
         final List<Integer> ARR = Arrays.asList(1, 2, 3);
         int res = Collections.foldr(pow , 2, ARR);
-        assertTrue(res == 1); // 1^(2^(3^2)) = 1^512 = 1
+        assertEquals(res, 1); // 1^(2^(3^2)) = 1^512 = 1
     }
 }
