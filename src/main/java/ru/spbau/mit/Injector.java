@@ -1,14 +1,13 @@
 package ru.spbau.mit;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Injector {
 
     private static ArrayList<String> mClassList;
+    private static Map<String, Object> mObjects;
 
     /**
      * Create and initialize object of `rootClassName` class using classes from
@@ -16,12 +15,17 @@ public class Injector {
      */
     public static Object initialize(String rootClassName, List<String> implementationClassNames) throws Exception {
         mClassList = new ArrayList<>();
+        mObjects = new Hashtable<>();
         return mInitialize(rootClassName, implementationClassNames);
     }
 
     private static Object mInitialize(String rootClassName,
                                        List<String> implementationClassNames)
             throws Exception {
+        if (mObjects.containsKey(rootClassName)) {
+            return mObjects.get(rootClassName);
+        }
+
         Class<?> rootClass = Class.forName(rootClassName);
         Constructor<?> rootConstructor = rootClass.getConstructors()[0];
         Class<?> parameterTypes[] = rootConstructor.getParameterTypes();
@@ -56,7 +60,8 @@ public class Injector {
 
         mClassList.remove(rootClassName);
 
-        return rootConstructor.newInstance(params);
+        mObjects.put(rootClassName, rootConstructor.newInstance(params));
+        return mObjects.get(rootClassName);
     }
 
     private static boolean fits(Class<?> currentClass, Class<?> parameterType) {
