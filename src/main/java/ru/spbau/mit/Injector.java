@@ -65,17 +65,14 @@ public class Injector {
     }
 
     private static boolean fits(Class<?> currentClass, Class<?> parameterType) {
-        if (parameterType.isInterface()) {
-            if (contains(currentClass.getInterfaces(), parameterType)) {
-                return true;
-            } else {
-                return false;
-            }
+/*        if (parameterType.isInterface() &&
+                contains(currentClass.getInterfaces(), parameterType)) {
+            return true;
         }
-
+*/
         return parameterType.isAssignableFrom(currentClass);
     }
-
+/*
     private static boolean contains(Class<?> interfaces[], Class<?> parameterType) {
         for (Class<?> clazz : interfaces) {
             if (clazz.equals(parameterType)) {
@@ -83,5 +80,5 @@ public class Injector {
             }
         }
         return false;
-    }
+    }*/
 }
