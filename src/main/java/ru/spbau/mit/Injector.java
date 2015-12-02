@@ -16,7 +16,11 @@ public class Injector {
     public static Object initialize(String rootClassName, List<String> implementationClassNames) throws Exception {
         mClassList = new ArrayList<>();
         mObjects = new Hashtable<>();
-        return mInitialize(rootClassName, implementationClassNames);
+
+        List<String> impNamesWithRoot = new ArrayList<>(implementationClassNames);
+        impNamesWithRoot.add(rootClassName);
+
+        return mInitialize(rootClassName, impNamesWithRoot);
     }
 
     private static Object mInitialize(String rootClassName,
@@ -65,20 +69,6 @@ public class Injector {
     }
 
     private static boolean fits(Class<?> currentClass, Class<?> parameterType) {
-/*        if (parameterType.isInterface() &&
-                contains(currentClass.getInterfaces(), parameterType)) {
-            return true;
-        }
-*/
         return parameterType.isAssignableFrom(currentClass);
     }
-/*
-    private static boolean contains(Class<?> interfaces[], Class<?> parameterType) {
-        for (Class<?> clazz : interfaces) {
-            if (clazz.equals(parameterType)) {
-                return true;
-            }
-        }
-        return false;
-    }*/
 }
