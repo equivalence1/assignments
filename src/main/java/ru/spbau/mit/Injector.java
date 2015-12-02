@@ -48,18 +48,17 @@ public class Injector {
             }
         }
 
-        Object params[] = new Object[parameterTypes.length];
-        for (int i = 0; i < matchedParameterNames.length; i++) {
-            if (matchedParameterNames[i] != null)
-                params[i] = mInitialize(matchedParameterNames[i], implementationClassNames);
-        }
-
         for (String parameterName : matchedParameterNames) {
             if (parameterName == null)
                 throw new ImplementationNotFoundException();
         }
 
-        mClassList.remove(rootClassName);
+        Object params[] = new Object[parameterTypes.length];
+        for (int i = 0; i < matchedParameterNames.length; i++) {
+            params[i] = mInitialize(matchedParameterNames[i], implementationClassNames);
+        }
+
+        //mClassList.remove(rootClassName);
 
         mObjects.put(rootClassName, rootConstructor.newInstance(params));
         return mObjects.get(rootClassName);
