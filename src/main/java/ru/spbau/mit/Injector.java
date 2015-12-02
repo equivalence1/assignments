@@ -58,16 +58,19 @@ public class Injector {
             params[i] = mInitialize(matchedParameterNames[i], implementationClassNames);
         }
 
-        //mClassList.remove(rootClassName);
+        mClassList.remove(rootClassName);
 
         mObjects.put(rootClassName, rootConstructor.newInstance(params));
         return mObjects.get(rootClassName);
     }
 
     private static boolean fits(Class<?> currentClass, Class<?> parameterType) {
-        if (parameterType.isInterface() &&
-                contains(currentClass.getInterfaces(), parameterType)) {
-            return true;
+        if (parameterType.isInterface()) {
+            if (contains(currentClass.getInterfaces(), parameterType)) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         return parameterType.isAssignableFrom(currentClass);
